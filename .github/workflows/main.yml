@@ -20,7 +20,7 @@ jobs:
           npm install -g newman-reporter-htmlextra
           
       - name: Make the Directory to result
-        run: mkdr -p testResults
+        run: mkdir -p testResults
         
       - name: run Postman
         run: |
