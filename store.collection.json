@@ -1,0 +1,221 @@
+{
+	"info": {
+		"_postman_id": "db0acdcc-76c0-427c-b314-c6967892e7a2",
+		"name": "store.colletion",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20111518"
+	},
+	"item": [
+		{
+			"name": "test pagination",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}?page=1&pageSize=3",
+					"host": [
+						"{{url}}"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test sorting",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}?sortOrder=DESC&sortKey=email",
+					"host": [
+						"{{url}}"
+					],
+					"query": [
+						{
+							"key": "sortOrder",
+							"value": "DESC"
+						},
+						{
+							"key": "sortKey",
+							"value": "email"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test status code 404",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}product",
+					"host": [
+						"{{url}}product"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test status code 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test responce time",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test json schema validation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const schema = {\r",
+							"    \"type\":\"array\",\r",
+							"    \"properties\":{\r",
+							"        \"{}\":{\r",
+							"            \"type\":\"object\",\r",
+							"            \"properties\":{\r",
+							"                \"id\":{\"type\":\"number\"}\r",
+							"            },\r",
+							"            \"required\":[\"id\"],\r",
+							"            \"minItems\":1,\r",
+							"        }\r",
+							"    },\r",
+							"    \"required\":[],\r",
+							"    \"minItems\":1,\r",
+							"    \"maxItems\":12,\r",
+							"    \"additionalPropreties\": false\r",
+							"};\r",
+							"\r",
+							"pm.test('Schema is valid',  ()=> {\r",
+							"    pm.response.to.have.jsonSchema(schema);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
