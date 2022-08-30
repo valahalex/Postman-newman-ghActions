@@ -26,15 +26,19 @@ jobs:
       - name: Make Directory for results
         run: mkdir -p test_results
 
-      - name: Run API Tests
-        id: run-newman
-        uses: anthonyvscode/newman-action@v1
+      - uses: actions/checkout@master
+      - uses: matt-ball/newman-action@master
         with:
           collection: petstore.collection.json
-          reporters: cli
+          reporters: '["htmlextra"]'
 
-      - name: Output summary to console
-        run: echo ${{ steps.run-newman.outputs.summary }}
+
+      - name: Output the run Details
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-run-reports
+          path: test_results
+          
 
 
 
