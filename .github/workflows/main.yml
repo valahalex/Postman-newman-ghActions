@@ -10,11 +10,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: "14.x"
-
       #- name: install dependencies
       #  run: npm i 
 
@@ -33,7 +28,7 @@ jobs:
         run: mkdir -p test_results
 
       - name: Run POSTMAN collection
-        run: newman run petstore.collection.json -r cli,htmlextra --reporter-htmlextra-export test_results/index.html 
+        run: newman run petstore.collection.json -r cli --reporter-htmlextra-export test_results/index.html 
 
       # Upload the contents of Test Results directory to workspace
       - name: Output the run Details
