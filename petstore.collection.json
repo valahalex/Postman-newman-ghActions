@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "5866e216-44ed-4c9c-b857-01597cac12e2",
-		"name": "petstore Copy",
+		"_postman_id": "4a0f5191-a707-404b-9e37-a6711475a264",
+		"name": "petstore",
 		"description": "This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "20111518"
+		"_exporter_id": "18317683"
 	},
 	"item": [
 		{
