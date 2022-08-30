@@ -15,13 +15,13 @@ jobs:
         with:
           node-version: "14.x"
 
-      - name: install dependencies
-        run: npm i 
+      #- name: install dependencies
+      #  run: npm i 
 
       - name: Install Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v1
         with:
-          node-version: '14.x'
+          node-version: '16.x'
 
       - name: Install newman
         run: npm install -g newman
