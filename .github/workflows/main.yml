@@ -36,4 +36,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: test-run-reports
-          path: test_results
+          path: test_results/test_report.html
