@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Install Node
         uses: actions/setup-node@v1
         with:
@@ -33,5 +33,5 @@ jobs:
         if: always()
         with:
           name: reports
-          path: ./test_results
+          path: test_results
 
