@@ -20,7 +20,7 @@ jobs:
       - name: Install newman
         run: |
           npm install -g newman
-          cd ./newman
+          cd ./opt/hostedtoolcache/node/14.20.0/x64/lib/node_modules/newman
           npm install -g newman-reporter-htmlextra
 
       # Make directory to upload the test results
