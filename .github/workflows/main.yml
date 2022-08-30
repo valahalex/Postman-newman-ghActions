@@ -20,38 +20,20 @@ jobs:
       - name: Install newman
         run: |
           npm install -g newman
-          cd ./opt/hostedtoolcache/node/14.20.0/x64/lib/node_modules/newman
           npm install -g newman-reporter-htmlextra
 
       # Make directory to upload the test results
       - name: Make Directory for results
         run: mkdir -p test_results
 
-      - uses: actions/checkout@master
-      - uses: matt-ball/newman-action@master
-        with:
-          collection: petstore.collection.json
-          reporters: '["htmlextra"]'
-
-
+      # Run the POSTMAN collection
+      - name: Run POSTMAN collection
+        run: |
+          newman run two.petstore.collection.json -r cli,htmlextra --reporter-htmlextra-export ./test_results/test_report.html
+                   
+      # Upload the contents of Test Results directory to workspace
       - name: Output the run Details
         uses: actions/upload-artifact@v3
         with:
           name: test-run-reports
           path: test_results
-          
-
-
-
-
-      # Run the POSTMAN collection
-    #  - name: Run POSTMAN collection
-    #    run: |
-    #      newman run petstore.collection.json -r cli,htmlextra --reporter-htmlextra-export ./test_results/test_report.html
-                    
-      # Upload the contents of Test Results directory to workspace
-    #  - name: Output the run Details
-    #    uses: actions/upload-artifact@v3
-    #    with:
-    #      name: test-run-reports
-    #      path: test_results/test_report.html
