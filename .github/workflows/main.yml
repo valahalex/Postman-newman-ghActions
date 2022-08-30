@@ -33,7 +33,7 @@ jobs:
         run: mkdir -p test_results
 
       - name: Run POSTMAN collection
-        run: newman run "petstore.collection.json" -r htmlextra --reporter-htmlextra-export test_results/index.html 
+        run: newman run petstore.collection.json -r htmlextra --reporter-htmlextra-export test_results/index.html 
 
       # Upload the contents of Test Results directory to workspace
       - name: Output the run Details
