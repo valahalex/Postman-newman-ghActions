@@ -20,7 +20,7 @@ jobs:
       - name: Install newman
         run: npm install -g newman
       - name: Install reporter
-        run: npm install -s newman-reporter-htmlextra
+        run: npm uninstall -s newman-reporter-htmlextra && npm install -s newman-reporter-htmlextra
 
       # Make directory to upload the test results
       - name: Make Directory for results
