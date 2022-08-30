@@ -31,7 +31,7 @@ jobs:
         uses: anthonyvscode/newman-action@v1
         with:
           collection: petstore.collection.json
-          reporters: htmlextra
+          reporters: cli,htmlextra
 
       - name: Output the run Details
         uses: actions/upload-artifact@v3
