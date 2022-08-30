@@ -33,11 +33,8 @@ jobs:
           collection: petstore.collection.json
           reporters: cli,htmlextra
 
-      - name: Output the run Details
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-run-reports
-          path: test_results
+      - name: Output summary to console
+        run: echo ${{ steps.run-newman.outputs.summary }}
 
 
 
