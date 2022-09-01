@@ -20,24 +20,11 @@
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"const schema = {\r",
-									"    \"type\":\"array\", \r",
-									"    \"items\":[\r",
-									"            {\r",
-									"                \"type\":\"object\",\r",
-									"                \"properties\":{\r",
-									"                    \"id\":{\r",
-									"                        \"type\":\"integer\",\r",
-									"                        \"maximum\":1,\r",
-									"                        \"minimum\":1},\r",
-									"                    },\r",
-									"            }\r",
-									"        ],            \r",
-									"    \"additionalPropreties\": false\r",
-									"};\r",
+									"pm.test(\"ID should be equil 1\", ()=> {\r",
+									"    const responseJson = (pm.response.json())[0];\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"    pm.expect(responseJson.id).to.eql(1);\r",
 									"\r",
-									"pm.test('Schema is valid',  ()=> {\r",
-									"    pm.response.to.have.jsonSchema(schema);\r",
 									"})"
 								],
 								"type": "text/javascript"
@@ -48,12 +35,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/users?page=1&pageSize=1",
+							"raw": "{{urlU}}?page=1&pageSize=1",
 							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"users"
+								"{{urlU}}"
 							],
 							"query": [
 								{
@@ -83,6 +67,12 @@
 									"pm.test(\"Response time is less than 200ms\", function () {\r",
 									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
 									"});\r",
+									"\r",
+									"pm.test(\"Count all users (9)\", ()=> {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.have.length(9);\r",
+									"\r",
+									"})\r",
 									""
 								],
 								"type": "text/javascript"
@@ -103,14 +93,84 @@
 				},
 				{
 					"name": "Sorting by email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"First email must be vesta.smith@gmail.com \", ()=> {\r",
+									"    const responseJson = (pm.response.json())[0];\r",
+									"    pm.expect(responseJson.email).to.be.eql('vesta.smith@gmail.com');\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{urlU}}?sortOrder=DESC&sortKey=email",
+							"host": [
+								"{{urlU}}"
+							],
+							"query": [
+								{
+									"key": "sortOrder",
+									"value": "DESC"
+								},
+								{
+									"key": "sortKey",
+									"value": "email"
+								}
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Geting by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('ID must be equil 5',  ()=> {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson.id).to.be.eql(5);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlU}}{{getID}}",
+							"host": [
+								"{{urlU}}{{getID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Geting by ID (Schema validation)",
 					"event": [
 						{
 							"listen": "test",
@@ -188,7 +248,11 @@
 									"pm.test(\"Status code is 201\", function () {\r",
 									"    pm.response.to.have.status(201);\r",
 									"});\r",
-									""
+									"\r",
+									"pm.test(\"Check the name of created users\", ()=> {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson.firstName).to.be.eql('Roland')\r",
+									"})"
 								],
 								"type": "text/javascript"
 							}
@@ -217,6 +281,20 @@
 				},
 				{
 					"name": "Create new user (Body fail - unnecessary field)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -283,7 +361,12 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
-									"});"
+									"});\r",
+									"\r",
+									"pm.test(\"Check the name of created users, it must be Randall\", ()=> {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson.firstName).to.be.eql('Randall')\r",
+									"})"
 								],
 								"type": "text/javascript"
 							}
@@ -365,9 +448,9 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{urlU}}{{idDel}}",
+							"raw": "{{urlU}}10",
 							"host": [
-								"{{urlU}}{{idDel}}"
+								"{{urlU}}10"
 							]
 						}
 					},
@@ -424,12 +507,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/products",
+							"raw": "{{urlP}}",
 							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"products"
+								"{{urlP}}"
 							]
 						}
 					},
@@ -475,13 +555,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/products/2",
+							"raw": "{{urlP}}2",
 							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"products",
-								"2"
+								"{{urlP}}2"
 							]
 						}
 					},
@@ -515,12 +591,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/products",
+							"raw": "{{urlP}}",
 							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"products"
+								"{{urlP}}"
 							]
 						}
 					},
@@ -528,6 +601,19 @@
 				},
 				{
 					"name": "New Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -541,12 +627,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/products",
+							"raw": "{{urlP}}",
 							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"products"
+								"{{urlP}}"
 							]
 						}
 					},
@@ -580,13 +663,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/products/5",
+							"raw": "{{urlP}}5",
 							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"products",
-								"5"
+								"{{urlP}}5"
 							]
 						}
 					},
