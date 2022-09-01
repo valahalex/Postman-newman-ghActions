@@ -35,3 +35,7 @@ jobs:
           name: reports
           path: test_results
 
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: test_results
