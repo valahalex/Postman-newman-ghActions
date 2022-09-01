@@ -1,194 +1,598 @@
 {
 	"info": {
 		"_postman_id": "db0acdcc-76c0-427c-b314-c6967892e7a2",
-		"name": "store.colletion",
+		"name": "my.store.colletion",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "20111518"
 	},
 	"item": [
 		{
-			"name": "test pagination",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{url}}?page=1&pageSize=3",
-					"host": [
-						"{{url}}"
-					],
-					"query": [
+			"name": "Users testing suite",
+			"item": [
+				{
+					"name": "Pagination",
+					"event": [
 						{
-							"key": "page",
-							"value": "1"
-						},
-						{
-							"key": "pageSize",
-							"value": "3"
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\":\"array\", \r",
+									"    \"items\":[\r",
+									"            {\r",
+									"                \"type\":\"object\",\r",
+									"                \"properties\":{\r",
+									"                    \"id\":{\r",
+									"                        \"type\":\"integer\",\r",
+									"                        \"maximum\":1,\r",
+									"                        \"minimum\":1},\r",
+									"                    },\r",
+									"            }\r",
+									"        ],            \r",
+									"    \"additionalPropreties\": false\r",
+									"};\r",
+									"\r",
+									"pm.test('Schema is valid',  ()=> {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
 						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "test sorting",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{url}}?sortOrder=DESC&sortKey=email",
-					"host": [
-						"{{url}}"
 					],
-					"query": [
-						{
-							"key": "sortOrder",
-							"value": "DESC"
-						},
-						{
-							"key": "sortKey",
-							"value": "email"
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users?page=1&pageSize=1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "1"
+								}
+							]
 						}
-					]
+					},
+					"response": []
+				},
+				{
+					"name": "List all users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlU}}",
+							"host": [
+								"{{urlU}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sorting by email",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Geting by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\":\"object\",\r",
+									"    \"properties\":{\r",
+									"        \"id\":{\r",
+									"            \"minimum\":5,\r",
+									"            \"maximum\":5\r",
+									"        }\r",
+									"    },         \r",
+									"    \"additionalPropreties\": false\r",
+									"};\r",
+									"\r",
+									"pm.test('Schema is valid',  ()=> {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlU}}{{getID}}",
+							"host": [
+								"{{urlU}}{{getID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Geting by ID (ID fail)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlU}}{{idFail}}",
+							"host": [
+								"{{urlU}}{{idFail}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"firstName\": \"Roland\",\r\n        \"lastName\": \"Deschain\",\r\n        \"email\": \"roland.gunman@gmail.com\",\r\n        \"dateOfBirth\": \"1970-08-25\",\r\n        \"emailVerified\": true,\r\n        \"signUpDate\": \"1978-10-24\",\r\n        \"status\": \"active\",\r\n        \"level\": \"lord\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlU}}",
+							"host": [
+								"{{urlU}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new user (Body fail - unnecessary field)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"firstName\": \"Roland\",\r\n        \"lastName\": \"Deschain\",\r\n        \"email\": \"roland.gunman@gmail.com\",\r\n        \"dateOfBirth\": \"1970-08-25\",\r\n        \"emailVerified\": true,\r\n        \"signUpDate\": \"1978-10-24\",\r\n        \"status\": \"active\",\r\n        \"level\": \"lord\",\r\n        \"age\":41,\r\n        \"id\": 12\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlU}}",
+							"host": [
+								"{{urlU}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new user (Body fail - field lacks)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"lastName\": \"Deschain\",\r\n        \"email\": \"roland.gunman@gmail.com\",\r\n        \"dateOfBirth\": \"1970-08-25\",\r\n        \"emailVerified\": true,\r\n        \"signUpDate\": \"1978-10-24\",\r\n        \"status\": \"active\",\r\n        \"level\": \"lord\",\r\n        \"id\": 12\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlU}}",
+							"host": [
+								"{{urlU}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"firstName\": \"Randall\",\r\n        \"lastName\": \"Flagg\",\r\n        \"email\": \"Man_In_Black@gmail.com\",\r\n        \"dateOfBirth\": \"1970-08-25\",\r\n        \"emailVerified\": true,\r\n        \"signUpDate\": \"1978-10-24\",\r\n        \"status\": \"active\",\r\n        \"level\": \"lord\",\r\n        \"id\": 12\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlU}}",
+							"host": [
+								"{{urlU}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user (ID fail)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"firstName\": \"Randall\",\r\n        \"lastName\": \"Flagg\",\r\n        \"email\": \"Man_In_Black@gmail.com\",\r\n        \"dateOfBirth\": \"1970-08-25\",\r\n        \"emailVerified\": true,\r\n        \"signUpDate\": \"1978-10-24\",\r\n        \"status\": \"active\",\r\n        \"level\": \"lord\",\r\n        \"id\": 99\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlU}}",
+							"host": [
+								"{{urlU}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{urlU}}{{idDel}}",
+							"host": [
+								"{{urlU}}{{idDel}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user (ID fail)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{urlU}}",
+							"host": [
+								"{{urlU}}"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "test status code 404",
-			"event": [
+			"name": "Product testing suits",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Response time is less than 200ms\", function () {\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
-							"});\r",
-							"pm.test(\"Status code is 404\", function () {\r",
-							"    pm.response.to.have.status(404);\r",
-							"});\r",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{url}}product",
-					"host": [
-						"{{url}}product"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "test status code 200",
-			"event": [
+					"name": "List all products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/products",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Response time is less than 200ms\", function () {\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
-							"});\r",
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"pm.test(\"Content-Type is present\", function () {\r",
-							"    pm.response.to.have.header(\"Content-Type\");\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{url}}",
-					"host": [
-						"{{url}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "test responce time",
-			"event": [
+					"name": "Finde some product by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\":\"object\",\r",
+									"    \"properties\":{\r",
+									"        \"id\":{\r",
+									"            \"type\":\"number\",\r",
+									"            \"maximum\":2,\r",
+									"            \"minimum\":2\r",
+									"        },\r",
+									"        \"name\":{\"type\":\"string\"},\r",
+									"        \"price\":{\"type\":\"number\"},\r",
+									"        \"sku\":{\"type\":\"number\"},\r",
+									"        \"description\":{\"type\":\"string\"}\r",
+									"        },\r",
+									"    \"required\":[\"id\"],    \r",
+									"    \"additionalPropreties\": false\r",
+									"};\r",
+									"\r",
+									"pm.test('Schema is valid',  ()=> {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/products/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"products",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Response time is less than 200ms\", function () {\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{url}}",
-					"host": [
-						"{{url}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "test json schema validation",
-			"event": [
+					"name": "Create product eggplant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"eggplant\",\r\n    \"price\": 25,\r\n    \"sku\": 12399,\r\n    \"description\": \"aubergine \"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/products",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"const schema = {\r",
-							"    \"type\":\"array\",\r",
-							"    \"properties\":{\r",
-							"        \"{}\":{\r",
-							"            \"type\":\"object\",\r",
-							"            \"properties\":{\r",
-							"                \"id\":{\"type\":\"number\"}\r",
-							"            },\r",
-							"            \"required\":[\"id\"],\r",
-							"            \"minItems\":1,\r",
-							"        }\r",
-							"    },\r",
-							"    \"required\":[],\r",
-							"    \"minItems\":1,\r",
-							"    \"maxItems\":12,\r",
-							"    \"additionalPropreties\": false\r",
-							"};\r",
-							"\r",
-							"pm.test('Schema is valid',  ()=> {\r",
-							"    pm.response.to.have.jsonSchema(schema);\r",
-							"})"
-						],
-						"type": "text/javascript"
-					}
+					"name": "New Request",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 5,\r\n    \"name\": \"eggplant\",\r\n    \"price\": 200,\r\n    \"sku\": 4545,\r\n    \"description\": \"changed description\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/products",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete created products (by id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/products/5",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"products",
+								"5"
+							]
+						}
+					},
+					"response": []
 				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{url}}",
-					"host": [
-						"{{url}}"
-					]
-				}
-			},
-			"response": []
+			]
 		}
 	],
 	"event": [
@@ -213,8 +617,28 @@
 	],
 	"variable": [
 		{
-			"key": "url",
-			"value": "",
+			"key": "urlP",
+			"value": "http://localhost:3000/products/",
+			"type": "string"
+		},
+		{
+			"key": "urlU",
+			"value": "http://localhost:3000/users/",
+			"type": "string"
+		},
+		{
+			"key": "getID",
+			"value": "5",
+			"type": "string"
+		},
+		{
+			"key": "idFail",
+			"value": "501",
+			"type": "string"
+		},
+		{
+			"key": "idDel",
+			"value": "11",
 			"type": "string"
 		}
 	]
